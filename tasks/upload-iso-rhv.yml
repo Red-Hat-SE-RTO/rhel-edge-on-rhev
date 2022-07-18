@@ -64,7 +64,7 @@
 #  - vmware_upload_iso
 - name: Upload ISO
   redhat.rhv.ovirt_disk:
-    name: "{{ image_name }}"
+    name: "{{ image_name }}.iso"
     upload_image_path: "{{ iso_download_directory }}/{{ image_name }}.iso"
     storage_domain: DEMO-iSCSI
     wait: true
