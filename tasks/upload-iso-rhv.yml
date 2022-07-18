@@ -68,6 +68,7 @@
     upload_image_path: "{{ iso_download_directory }}/{{ image_name }}.iso"
     storage_domain: SALAB-iSCSI
     wait: true
+    size: 20GiB
     bootable: true
     format: raw
     content_type: iso
