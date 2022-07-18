@@ -72,6 +72,8 @@
     bootable: true
     format: raw
     content_type: iso
+    auth:
+      insecure: yes
   tags:
     - rhv_upload_iso
     
