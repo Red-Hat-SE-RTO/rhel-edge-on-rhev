@@ -1,9 +1,11 @@
 ---
+#Check if RHV credentials present on Controller
+- name: Obtain SSO token
+  ovirt_auth:
+    state: present
+    
 - name: Create Cluster Folder
   community.vmware.vcenter_folder:
-    hostname: '{{  vcenter_hostname }}'
-    username: '{{  vcenter_username }}'
-    password: '{{  vcenter_password }}'
     validate_certs: '{{  vcenter_verify_ssl }}'
     datacenter_name: "{{  vcenter_datacenter }}"
     folder_name: "{{ vmware_folder }}"
