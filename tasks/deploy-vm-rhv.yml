@@ -14,7 +14,6 @@
     cd_iso: "{{ image_name }}.iso"
     boot_devices:
       - cdrom
-    state: present
     cluster: "{{  hypervisor_cluster }}"
     name: "{{ hypervisor_cluster }}-{{ lookup('env', 'OVIRT_URL') }}"
     #folder: "{{ hypervisor_folder }}"
