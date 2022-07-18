@@ -66,7 +66,7 @@
   redhat.rhv.ovirt_disk:
     name: "{{ image_name }}"
     upload_image_path: "{{ iso_download_directory }}/{{ image_name }}.iso"
-    storage_domain: SALAB-iSCSI
+    storage_domain: DEMO-iSCSI
     wait: true
     size: 20GiB
     bootable: true
