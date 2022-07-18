@@ -4,7 +4,7 @@
   ovirt_auth:
     state: present
   tags:
-    - rhv_deploy_vms
+    - rhv_upload_iso
     
 #- name: Create Cluster Folder
 #  community.vmware.vcenter_folder:
@@ -67,11 +67,10 @@
     name: {{ image_name }}
     upload_image_path: "{{ iso_download_directory }}/{{ image_name }}.iso"
     storage_domain: SALAB-iSCSI
-    size: 20 GiB
     wait: true
     bootable: true
     format: raw
     content_type: iso
   tags:
-    - rhv_deploy_vms
+    - rhv_upload_iso
     
