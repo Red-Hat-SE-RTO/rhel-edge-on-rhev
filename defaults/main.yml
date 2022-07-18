@@ -10,7 +10,7 @@ hypervisor_hostname: rhel-edge-1
 hypervisor_template_name: rhel-edge-template
 #hypervisor_datastore: Datastore
 #vmware_folder: 'edge-deployments'
-hypervisor_ram_mb: 4092
+hypervisor_ram_mb: 4092MiB
 vm_cpu_count: 2
 vm_num_cpu_cores_per_socket: 1
 hypervisor_network: DEMO
