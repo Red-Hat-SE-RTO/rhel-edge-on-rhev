@@ -15,7 +15,7 @@
     boot_devices:
       - cdrom
     cluster: "{{  hypervisor_cluster }}"
-    name: "{{ hypervisor_cluster }}-{{ lookup('env', 'OVIRT_URL') }}"
+    name: edge_demo_aap
     #folder: "{{ hypervisor_folder }}"
     #guest_id: rhel8_64Guest	
     state: running
