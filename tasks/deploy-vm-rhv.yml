@@ -15,7 +15,7 @@
     state: present
     cluster: "{{  hypervisor_cluster }}"
     name: "{{ hypervisor_cluster }}-{{ lookup('env', 'OVIRT_URL' }}"
-    folder: "{{ hypervisor_folder }}"
+    #folder: "{{ hypervisor_folder }}"
     #guest_id: rhel8_64Guest	
     state: running
     memory: "{{ hypervisor_ram_mb }}"
