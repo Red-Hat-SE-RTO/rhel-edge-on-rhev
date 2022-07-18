@@ -1,95 +1,61 @@
 ---
-#- name: "Create VM - {{ hypervisor_hostname }}  with static IP"
-#  community.vmware.vmware_guest:
-#    hostname: '{{  hypervisor_hostname }}'
-#    username: '{{  hypervisor_username }}'
-#    password: '{{  hypervisor_password }}'
-#    validate_certs: '{{  hypervisor_verify_ssl }}'
-#    datacenter: "{{  hypervisor_datacenter }}"
-#    datastore: "{{  hypervisor_datastore }}"
-#    cluster: "{{  hypervisor_cluster }}"
-#    name: "{{ hypervisor_cluster }}-{{ hypervisor_hostname }}"
-#    folder: "{{ hypervisor_folder }}"
-#    guest_id: rhel8_64Guest	
-#    state: present
-#    disk:
-#    - size_gb: "{{ disk_size }}"
-#      type: thin
-#      datastore: "{{ hypervisor_datastore }}"
-#    hardware:
-#      memory_mb: "{{ hypervisor_ram_mb }}"
-#      num_cpu_cores_per_socket : "{{ vm_num_cpu_cores_per_socket }}"
-#      num_cpus : "{{ vm_cpu_count }}"
-#      hotadd_cpu: yes
-#      hotadd_memory: yes
-#      version: "{{ hypervisor_hardware_version | int }}"
-#      nested_virt: "{{ hypervisor_nested_virt | default(False) }}"
-#    cdrom:
-#      - controller_number: 0
-#        unit_number: 0
-#        state: present
-#        type: iso
-#        iso_path: "[{{ vcenter_datastore }}] {{ iso_path_loc }}"
-#    networks:
-#    - name: "{{ hypervisor_network }}"
-#      ip: "{{ ip_address }}"
-#      netmask: "{{ net_mask }}"
-#      gateway: "{{ gateway }}"
-#      mac: "{{ mac_adddress }}"
-#      dns_servers:
-#      - "{{ dns_server }}"
-#  tags:
-#    - rhv_deploy_vms
-#  when: use_dhcp == false 
-
 #Check if RHV credentials present on Controller
 - name: Obtain SSO token
   ovirt_auth:
     state: present
     
 - name: "Create VM - {{ lookup('env', 'OVIRT_URL' }} with DHCP"
-  community.vmware.vmware_guest:
-    validate_certs: '{{  vcenter_verify_ssl }}'
-    datacenter: "{{  hypervisor_datacenter }}"
-    datastore: "{{  hypervisor_datastore }}"
+  redhat.rhv.ovirt_vm:
+    auth:
+      insecure: yes
+    #validate_certs: '{{  vcenter_verify_ssl }}'
+    cd_iso: "{{ image_name }}.iso"
+    boot_devices:
+      - cdrom
+    state: present
     cluster: "{{  hypervisor_cluster }}"
     name: "{{ hypervisor_cluster }}-{{ lookup('env', 'OVIRT_URL' }}"
     folder: "{{ hypervisor_folder }}"
-    guest_id: rhel8_64Guest	
-    state: present
-    disk:
-    - size_gb: "{{ disk_size }}"
-      type: thin
-      datastore: "{{ hypervisor_datastore }}"
-    hardware:
-      memory_mb: "{{ hypervisor_ram_mb }}"
-      num_cpu_cores_per_socket : "{{ vm_num_cpu_cores_per_socket }}"
-      num_cpus : "{{ vm_cpu_count }}"
-      hotadd_cpu: yes
-      hotadd_memory: yes
-      version: "{{ hypervisor_hardware_version | int }}"
-      nested_virt: "{{ hypervisor_nested_virt | default(False) }}"
-    cdrom:
-      - controller_number: 0
-        unit_number: 0
-        state: present
-        type: iso
-        iso_path: "[{{ hypervisor_datastore }}] {{ iso_path_loc }}"
-    networks:
-    - name: "{{ hypervisor_network }}"
+    #guest_id: rhel8_64Guest	
+    state: running
+    memory: "{{ hypervisor_ram_mb }}"
+    cpu_cores: "{{ vm_num_cpu_cores_per_socket }}"
+    cpu_sockets: "{{ vm_cpu_count }}"
+    cloud_init:
+      nic_boot_protocol: dhcp
+    #disk:
+    #- size_gb: "{{ disk_size }}"
+    #  type: thin
+    #  datastore: "{{ hypervisor_datastore }}"
+    #hardware:
+     # memory_mb: "{{ hypervisor_ram_mb }}"
+     # num_cpu_cores_per_socket : "{{ vm_num_cpu_cores_per_socket }}"
+     # num_cpus : "{{ vm_cpu_count }}"
+     # hotadd_cpu: yes
+     # hotadd_memory: yes
+     # version: "{{ hypervisor_hardware_version | int }}"
+     # nested_virt: "{{ hypervisor_nested_virt | default(False) }}"
+    #cdrom:
+    #  - controller_number: 0
+    #    unit_number: 0
+    #    state: present
+    #    type: iso
+    #    iso_path: "[{{ hypervisor_datastore }}] {{ iso_path_loc }}"
+  #  networks:
+  #  - name: "{{ hypervisor_network }}"
   tags:
     - rhv_deploy_vms
 #  when: use_dhcp == true 
 
-- name: Power On VM - {{ lookup('env', 'OVIRT_URL' }}
-  community.vmware.vmware_guest:
-    validate_certs: '{{ hypervisor_verify_ssl }}'
-    datacenter: "{{  hypervisor_datacenter }}"
-    datastore: "{{  hypervisor_datastore }}"
-    cluster: "{{  hypervisor_cluster }}"
-    name: "{{ hypervisor_cluster }}-{{ lookup('env', 'OVIRT_URL' }}"
-    folder: "{{ hypervisor_folder }}"
-    state: powered-on
-    guest_id: rhel8_64Guest	
-  tags:
-    - rhv_deploy_vms
+#- name: Power On VM - {{ lookup('env', 'OVIRT_URL' }}
+#  community.vmware.vmware_guest:
+#    validate_certs: '{{ hypervisor_verify_ssl }}'
+#    datacenter: "{{  hypervisor_datacenter }}"
+#    datastore: "{{  hypervisor_datastore }}"
+#    cluster: "{{  hypervisor_cluster }}"
+#    name: "{{ hypervisor_cluster }}-{{ lookup('env', 'OVIRT_URL' }}"
+#    folder: "{{ hypervisor_folder }}"
+#   state: powered-on
+#    guest_id: rhel8_64Guest	
+#  tags:
+#    - rhv_deploy_vms
