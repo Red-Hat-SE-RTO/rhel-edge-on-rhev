@@ -1,2 +1,15 @@
 ---
 # tasks file for rhel-egde-on-rhev
+- include_tasks: upload-iso-rhv.yaml
+  tags:
+    - rhv_create_folder
+    - rhv_check_for_iso
+    - rhv_upload_iso
+- include_tasks: deploy-vm-rhv.yaml
+  tags:
+    - vmware_deploy_vms
+- include_tasks: destroy-vm-rhv.yaml
+  tags:
+    - rhv_destroy_vm
+    - rhv_delete_iso
+    - rhv_delete_folder
