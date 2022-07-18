@@ -7,7 +7,7 @@
     - rhv_upload_iso
 - include_tasks: deploy-vm-rhv.yaml
   tags:
-    - vmware_deploy_vms
+    - rhv_deploy_vms
 - include_tasks: destroy-vm-rhv.yaml
   tags:
     - rhv_destroy_vm
