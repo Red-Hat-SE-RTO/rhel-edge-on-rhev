@@ -3,6 +3,8 @@
 - name: Obtain SSO token
   ovirt_auth:
     state: present
+  tags:
+    - rhv_deploy_vms
     
 #- name: Create Cluster Folder
 #  community.vmware.vcenter_folder:
@@ -70,4 +72,6 @@
     bootable: true
     format: raw
     content_type: iso
+  tags:
+    - rhv_deploy_vms
     
