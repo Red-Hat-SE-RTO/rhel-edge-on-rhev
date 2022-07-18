@@ -3,8 +3,10 @@
 - name: Obtain SSO token
   ovirt_auth:
     state: present
+  tags:
+    - rhv_deploy_vms
     
-- name: "Create VM - {{ lookup('env', 'OVIRT_URL' }} with DHCP"
+- name: "Create VM - {{ lookup('env', 'OVIRT_URL') }} with DHCP"
   redhat.rhv.ovirt_vm:
     auth:
       insecure: yes
@@ -14,7 +16,7 @@
       - cdrom
     state: present
     cluster: "{{  hypervisor_cluster }}"
-    name: "{{ hypervisor_cluster }}-{{ lookup('env', 'OVIRT_URL' }}"
+    name: "{{ hypervisor_cluster }}-{{ lookup('env', 'OVIRT_URL') }}"
     #folder: "{{ hypervisor_folder }}"
     #guest_id: rhel8_64Guest	
     state: running
